@@ -1,12 +1,20 @@
+from fastapi import FastAPI
 from transformers import pipeline
-from src.traduzir import traduzir
+from src.translate import translate
 
+app = FastAPI()
 classificador = pipeline("sentiment-analysis", model="nlptown/bert-base-multilingual-uncased-sentiment")
 
-while True:
-    frase = str(input("Digite uma frase: "))
-    resultado = classificador(frase)[0]
-    sentimento = traduzir(resultado["label"])
-    estrelas = int(resultado["label"].split()[0])
-    print(f"\nFrase: {frase}")
-    print(f"Sentimento: {sentimento} (Estrelas: {estrelas})")
+@app.get("/mood")
+async def moodTracker(text: str):
+    result = classificador(text)[0]
+    feeling = translate(result['label'])
+    stars = int(result["label"].split()[0])
+    return {
+        "feeling": feeling,
+        "stars": stars
+    }
+
+@app.get("/")
+async def test():
+    return {"message": "AI Service is working!"}
