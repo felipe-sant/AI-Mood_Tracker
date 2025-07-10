@@ -17,7 +17,7 @@ Este projeto aplica técnicas de Processamento de Linguagem Natural (PLN) para i
 
 2. Execute a aplicação:
     ```
-    python index.py
+    uvicorn index:app
     ```
 
 ## 📦 Estrutura
