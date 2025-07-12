@@ -1,20 +1,23 @@
 from fastapi import FastAPI
 from transformers import pipeline
-from src.translate import translate
 
 app = FastAPI()
-classificador = pipeline("sentiment-analysis", model="nlptown/bert-base-multilingual-uncased-sentiment")
+
+# Modelo com vocabulário reduzido para português (mais leve)
+classificador = pipeline(
+    "sentiment-analysis", 
+    model="vocabtrimmer/xlm-roberta-base-trimmed-pt-5000-tweet-sentiment-pt"
+)
 
 @app.get("/mood")
 async def moodTracker(text: str):
     result = classificador(text)[0]
-    feeling = translate(result['label'])
-    stars = int(result["label"].split()[0])
+    print(result['label'])
     return {
-        "feeling": feeling,
-        "stars": stars
+        "feeling": result['label'],
+        "score": round(result['score'], 4)
     }
 
 @app.get("/")
-async def test():
-    return {"message": "AI Service is working!"}
+async def root():
+    return {"message": "API está funcionando com modelo trimmed!"}

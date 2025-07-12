@@ -16,28 +16,11 @@
         "documentation": {}
     },
     {
-        "label": "translate",
-        "importPath": "src.translate",
-        "description": "src.translate",
-        "isExtraImport": true,
-        "detail": "src.translate",
-        "documentation": {}
-    },
-    {
-        "label": "translate",
-        "kind": 2,
-        "importPath": "src.translate",
-        "description": "src.translate",
-        "peekOfCode": "def translate(label):\n    stars = int(label.split()[0])\n    if stars <= 2:\n        return \"Negative\"\n    elif stars == 3:\n        return \"Neutral\"\n    else:\n        return \"Positive\"",
-        "detail": "src.translate",
-        "documentation": {}
-    },
-    {
         "label": "app",
         "kind": 5,
         "importPath": "index",
         "description": "index",
-        "peekOfCode": "app = FastAPI()\nclassificador = pipeline(\"sentiment-analysis\", model=\"nlptown/bert-base-multilingual-uncased-sentiment\")\n@app.get(\"/mood\")\nasync def moodTracker(text: str):\n    result = classificador(text)[0]\n    feeling = translate(result['label'])\n    stars = int(result[\"label\"].split()[0])\n    return {\n        \"feeling\": feeling,\n        \"stars\": stars",
+        "peekOfCode": "app = FastAPI()\n# Modelo com vocabulário reduzido para português (mais leve)\nclassificador = pipeline(\n    \"sentiment-analysis\", \n    model=\"vocabtrimmer/xlm-roberta-base-trimmed-pt-5000-tweet-sentiment-pt\"\n)\n@app.get(\"/mood\")\nasync def moodTracker(text: str):\n    result = classificador(text)[0]\n    print(result['label'])",
         "detail": "index",
         "documentation": {}
     },
@@ -46,7 +29,7 @@
         "kind": 5,
         "importPath": "index",
         "description": "index",
-        "peekOfCode": "classificador = pipeline(\"sentiment-analysis\", model=\"nlptown/bert-base-multilingual-uncased-sentiment\")\n@app.get(\"/mood\")\nasync def moodTracker(text: str):\n    result = classificador(text)[0]\n    feeling = translate(result['label'])\n    stars = int(result[\"label\"].split()[0])\n    return {\n        \"feeling\": feeling,\n        \"stars\": stars\n    }",
+        "peekOfCode": "classificador = pipeline(\n    \"sentiment-analysis\", \n    model=\"vocabtrimmer/xlm-roberta-base-trimmed-pt-5000-tweet-sentiment-pt\"\n)\n@app.get(\"/mood\")\nasync def moodTracker(text: str):\n    result = classificador(text)[0]\n    print(result['label'])\n    return {\n        \"feeling\": result['label'],",
         "detail": "index",
         "documentation": {}
     }
