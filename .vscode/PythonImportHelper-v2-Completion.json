@@ -1,10 +1,11 @@
 [
     {
-        "label": "FastAPI",
-        "importPath": "fastapi",
-        "description": "fastapi",
+        "label": "gradio",
+        "kind": 6,
         "isExtraImport": true,
-        "detail": "fastapi",
+        "importPath": "gradio",
+        "description": "gradio",
+        "detail": "gradio",
         "documentation": {}
     },
     {
@@ -16,21 +17,21 @@
         "documentation": {}
     },
     {
-        "label": "app",
-        "kind": 5,
-        "importPath": "index",
-        "description": "index",
-        "peekOfCode": "app = FastAPI()\n# Modelo com vocabulário reduzido para português (mais leve)\nclassificador = pipeline(\n    \"sentiment-analysis\", \n    model=\"vocabtrimmer/xlm-roberta-base-trimmed-pt-5000-tweet-sentiment-pt\"\n)\n@app.get(\"/mood\")\nasync def moodTracker(text: str):\n    result = classificador(text)[0]\n    print(result['label'])",
-        "detail": "index",
+        "label": "analisar",
+        "kind": 2,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "def analisar(texto):\n    resultado = classificador(texto)[0]\n    sentimento = resultado[\"label\"]\n    score = round(resultado[\"score\"], 4)\n    return f\"Sentimento: {sentimento}\\nScore: {score}\"\ngr.Interface(\n    fn=analisar,\n    inputs=gr.Textbox(label=\"Digite o texto\"),\n    outputs=gr.Textbox(label=\"Resultado\"),\n    title=\"Análise de Sentimento em Português\",",
+        "detail": "app",
         "documentation": {}
     },
     {
         "label": "classificador",
         "kind": 5,
-        "importPath": "index",
-        "description": "index",
-        "peekOfCode": "classificador = pipeline(\n    \"sentiment-analysis\", \n    model=\"vocabtrimmer/xlm-roberta-base-trimmed-pt-5000-tweet-sentiment-pt\"\n)\n@app.get(\"/mood\")\nasync def moodTracker(text: str):\n    result = classificador(text)[0]\n    print(result['label'])\n    return {\n        \"feeling\": result['label'],",
-        "detail": "index",
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "classificador = pipeline(\n    \"sentiment-analysis\",\n    model=\"vocabtrimmer/xlm-roberta-base-trimmed-pt-5000-tweet-sentiment-pt\"\n)\ndef analisar(texto):\n    resultado = classificador(texto)[0]\n    sentimento = resultado[\"label\"]\n    score = round(resultado[\"score\"], 4)\n    return f\"Sentimento: {sentimento}\\nScore: {score}\"\ngr.Interface(",
+        "detail": "app",
         "documentation": {}
     }
 ]
